@@ -37,7 +37,6 @@ import org.springframework.web.bind.annotation.RestController;
 @AssignmentHints(value = {"SqlOnlyInputValidationOnKeywords-1", "SqlOnlyInputValidationOnKeywords-2", "SqlOnlyInputValidationOnKeywords-3"})
 public class SqlOnlyInputValidationOnKeywords extends AssignmentEndpoint {
 
-    //TODO does UNI/**/ION work as well?
     private final SqlInjectionLesson6a lesson6a;
 
     public SqlOnlyInputValidationOnKeywords(SqlInjectionLesson6a lesson6a) {
@@ -47,10 +46,11 @@ public class SqlOnlyInputValidationOnKeywords extends AssignmentEndpoint {
     @PostMapping("/SqlOnlyInputValidationOnKeywords/attack")
     @ResponseBody
     public AttackResult attack(@RequestParam("userid_sql_only_input_validation_on_keywords") String userId) {
-        userId = userId.replace("FROM", "").replace("SELECT", "");
+        userId = userId.toUpperCase().replace("FROM", "").replace("SELECT", "");
         if (userId.contains(" ")) {
             return failed(this).feedback("SqlOnlyInputValidationOnKeywords-failed").build();
         }
-        return lesson6a.injectableQuery(userId);
+        AttackResult attackResult = lesson6a.injectableQuery(userId);
+        return new AttackResult(attackResult.isLessonCompleted(), attackResult.getFeedback(), attackResult.getOutput(), getClass().getSimpleName());
     }
 }

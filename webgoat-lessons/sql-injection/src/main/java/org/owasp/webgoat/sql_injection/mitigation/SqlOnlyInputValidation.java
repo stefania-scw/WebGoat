@@ -23,6 +23,7 @@
 
 package org.owasp.webgoat.sql_injection.mitigation;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AttackResult;
@@ -49,6 +50,7 @@ public class SqlOnlyInputValidation extends AssignmentEndpoint {
         if (userId.contains(" ")) {
             return failed(this).feedback("SqlOnlyInputValidation-failed").build();
         }
-        return lesson6a.injectableQuery(userId);
+        AttackResult attackResult = lesson6a.injectableQuery(userId);
+        return new AttackResult(attackResult.isLessonCompleted(), attackResult.getFeedback(), attackResult.getOutput(), getClass().getSimpleName());
     }
 }
