@@ -215,7 +215,7 @@ public abstract class IntegrationTest {
                         .extract().path("lessonCompleted"), CoreMatchers.is(expectedResult));
     }
 
-    //TODO not every lesson endpoint needs to start with a certain prefix (they are only required to be in the same package)
+    //TODO is prefix useful? not every lesson endpoint needs to start with a certain prefix (they are only required to be in the same package)
     public void checkResults(String prefix) {
         checkResults();
 
